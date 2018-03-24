@@ -1,0 +1,43 @@
+version: '3'
+services:
+
+  grafana:
+    image: grafana/grafana
+    restart: always
+    volumes:
+      - grafana-storage
+    ports:
+      - "3000:3000"
+    depends_on:
+      - graphite
+
+  graphite:
+    image: hopsoft/graphite-statsd
+    restart: always
+    volumes:
+      - graphite-storage
+    ports:
+      - "2003-2004:2003-2004"
+      - "2023-2024:2023-2024"
+      - "80:80"
+      - "8125:8125/udp"
+      - "8126:8126"
+
+  dropwizard:
+    build:
+      context: ./
+    restart: always
+    links:
+      - graphite
+    environment:
+      - GRAPHITE_HOST=graphite
+      - GRAPHITE_PORT=2003
+    ports:
+      - "1337-1338:1337-1338"
+    depends_on:
+      - grafana
+      - graphite
+
+volumes:
+  grafana-storage:
+  graphite-storage:

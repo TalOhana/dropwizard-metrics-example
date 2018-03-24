@@ -66,6 +66,7 @@
                 <version>${shade.plugin.version}</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <shadedArtifactAttached>false</shadedArtifactAttached>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>

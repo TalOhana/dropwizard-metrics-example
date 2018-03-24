@@ -17,8 +17,8 @@ public class GreetingsResource {
 
     @Inject
     public GreetingsResource(MetricRegistry metrics) {
-        this.greetingsCounter = metrics.counter("GreetingsCounter");
-        this.greetingsMeter = metrics.meter("GreetingsMeter");
+        this.greetingsCounter = metrics.counter("greetings_counter");
+        this.greetingsMeter = metrics.meter("greetings_meter");
     }
 
     @GET

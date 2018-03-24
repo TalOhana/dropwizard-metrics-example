@@ -1,5 +1,11 @@
 server:
   type: default
+  applicationConnectors:
+    - type: http
+      port: 1337
+  adminConnectors:
+    - type: http
+      port: 1338
 
-graphiteHost: 192.168.99.100
-graphitePort: 2003
+graphiteHost: ${GRAPHITE_HOST}
+graphitePort: ${GRAPHITE_PORT}

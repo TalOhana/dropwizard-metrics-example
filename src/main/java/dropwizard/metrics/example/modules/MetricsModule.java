@@ -1,5 +1,6 @@
 package dropwizard.metrics.example.modules;
 
+import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.graphite.Graphite;
@@ -15,13 +16,15 @@ public class MetricsModule extends DropwizardAwareModule<GreetingConfiguration> 
         final Graphite graphite = new Graphite(new InetSocketAddress(configuration().getGraphiteHost(), configuration().getGraphitePort()));
 
         final GraphiteReporter reporter = GraphiteReporter.forRegistry(environment().metrics())
-                .prefixedWith("greetings")
+                .prefixedWith("app")
                 .convertRatesTo(TimeUnit.SECONDS)
                 .convertDurationsTo(TimeUnit.MILLISECONDS)
                 .filter(MetricFilter.ALL)
                 .build(graphite);
 
         reporter.start(5, TimeUnit.SECONDS);
+
+        ConsoleReporter.forRegistry(environment().metrics()).build().start(5, TimeUnit.SECONDS);
 
         bind(MetricRegistry.class).toInstance(environment().metrics());
     }
